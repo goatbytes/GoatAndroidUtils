@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+  buildToolsVersion buildConfig.buildTools
+
+  defaultConfig {
+    applicationId "io.goatbytes.android.goatutilsdemo"
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.targetSdk
+    versionCode 1
+    versionName "1.0"
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation deps.kotlin.stdlib.jdk
+  implementation deps.androidx.appCompat
+  implementation deps.androidx.constraintLayout
+  implementation deps.androidx.ktx
+  implementation project(':library')
+}
