@@ -1,6 +1,4 @@
 buildscript {
-  ext.kotlin_version = '1.3.61'
-
 
   // @formatter:off
 
@@ -53,7 +51,6 @@ buildscript {
   dependencies {
     classpath "com.android.tools.build:gradle:${buildConfig.gradlePlugin}"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
 
