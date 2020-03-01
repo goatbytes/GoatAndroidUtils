@@ -49,7 +49,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
-import io.goatbytes.android.app
+import io.goatbytes.android.globals.context
 import java.io.Serializable
 import java.nio.charset.Charset
 import kotlin.math.roundToInt
@@ -265,7 +265,7 @@ fun Context.isPackageInstalled(packageName: String): Boolean = try {
 
 // region Intents
 
-fun Intent.isAvailable(): Boolean = app.packageManager.queryIntentActivities(
+fun Intent.isAvailable(): Boolean = context().packageManager.queryIntentActivities(
     this, PackageManager.MATCH_DEFAULT_ONLY
 ).isNotEmpty()
 
@@ -400,13 +400,13 @@ inline val Context.displayHeight: Int get() = resources.displayMetrics.heightPix
 inline val Context.displayWidth: Int get() = resources.displayMetrics.widthPixels
 
 /** Convert device-independent pixels to pixels */
-val Float.dp: Float get() = this * app.resources.displayMetrics.density
+val Float.dp: Float get() = this * context().resources.displayMetrics.density
 /** Convert scale-independent pixels to pixels */
-val Float.sp: Float get() = this * app.resources.displayMetrics.scaledDensity
+val Float.sp: Float get() = this * context().resources.displayMetrics.scaledDensity
 /** Convert pixels to device-independent pixels */
-val Float.toDp: Float get() = this / app.resources.displayMetrics.density
+val Float.toDp: Float get() = this / context().resources.displayMetrics.density
 /** Convert pixels to device-independent pixels */
-val Float.toSp: Float get() = this / app.resources.displayMetrics.scaledDensity
+val Float.toSp: Float get() = this / context().resources.displayMetrics.scaledDensity
 /** Convert device-independent pixels to pixels */
 val Float.dip get() = dp
 
@@ -421,19 +421,26 @@ val Int.toSp: Int get() = this.toFloat().toSp.roundToInt()
 /** Convert device-independent pixels to pixels */
 val Int.dip get() = dp
 
-fun @receiver:StringRes Int.string(context: Context = app): String {
+/**
+ * Returns a localized string from the application's package's default string table.
+ *
+ * @param resId Resource id for the string
+ * @return The string data associated with the resource, stripped of styled
+ *         text information.
+ */
+fun @receiver:StringRes Int.string(context: Context = context()): String {
     return context.getString(this)
 }
 
 /**
  * Returns a color associated with a particular resource ID
  *
- * @param context The context to use to style the color as of [Build.VERSION_CODES.M]
+ * @param context context used to get the application's resources.
  * @return A single color value in the form 0xAARRGGBB.
  * @throws Resources.NotFoundException if the given ID does not exist.
  */
 @ColorInt
-fun @receiver:ColorRes Int.color(context: Context = app): Int {
+fun @receiver:ColorRes Int.color(context: Context = context()): Int {
     return ContextCompat.getColor(context, this)
 }
 
@@ -444,7 +451,7 @@ fun @receiver:ColorRes Int.color(context: Context = app): Int {
  * @return A color state list, or {@code null} if the resource could not be resolved.
  * @throws Resources.NotFoundException if the given ID does not exist.
  */
-fun @receiver:ColorRes Int.colors(context: Context = app): ColorStateList? {
+fun @receiver:ColorRes Int.colors(context: Context = context()): ColorStateList? {
     return ContextCompat.getColorStateList(context, this)
 }
 
@@ -454,7 +461,7 @@ fun @receiver:ColorRes Int.colors(context: Context = app): ColorStateList? {
  * @param context The context to use to style the color as of [Build.VERSION_CODES.LOLLIPOP]
  * @return Drawable An object that can be used to draw this resource.
  */
-fun @receiver:DrawableRes Int.drawable(context: Context = app): Drawable? {
+fun @receiver:DrawableRes Int.drawable(context: Context = context()): Drawable? {
     return ContextCompat.getDrawable(context, this)
 }
 
@@ -465,7 +472,7 @@ fun @receiver:DrawableRes Int.drawable(context: Context = app): Drawable? {
  * @return The int array associated with the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:ArrayRes Int.intArray(context: Context = app): IntArray {
+fun @receiver:ArrayRes Int.intArray(context: Context = context()): IntArray {
     return context.resources.getIntArray(this)
 }
 
@@ -476,8 +483,19 @@ fun @receiver:ArrayRes Int.intArray(context: Context = app): IntArray {
  * @return The String array associated with the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:ArrayRes Int.stringArray(context: Context = app): Array<String> {
+fun @receiver:ArrayRes Int.stringArray(context: Context = context()): Array<String> {
     return context.resources.getStringArray(this)
+}
+
+/**
+ * Return the styled text array associated with a particular resource ID.
+ *
+ * @param context context used to get the application's resources.
+ * @return The styled text array associated with the resource.
+ * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
+ */
+fun @receiver:ArrayRes Int.textArray(context: Context = context()): Array<CharSequence> {
+    return context.resources.getTextArray(this)
 }
 
 /**
@@ -487,7 +505,7 @@ fun @receiver:ArrayRes Int.stringArray(context: Context = app): Array<String> {
  * @return A string holding the type name of the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:AnyRes Int.typeName(context: Context = app): String {
+fun @receiver:AnyRes Int.typeName(context: Context = context()): String {
     return context.resources.getResourceTypeName(this)
 }
 
@@ -498,7 +516,7 @@ fun @receiver:AnyRes Int.typeName(context: Context = app): String {
  * @return A string holding the entry name of the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:AnyRes Int.name(context: Context = app): String {
+fun @receiver:AnyRes Int.name(context: Context = context()): String {
     return context.resources.getResourceEntryName(this)
 }
 
@@ -510,7 +528,7 @@ fun @receiver:AnyRes Int.name(context: Context = app): String {
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
 @Px
-fun @receiver:DimenRes Int.dimension(context: Context = app): Float {
+fun @receiver:DimenRes Int.dimension(context: Context = context()): Float {
     return context.resources.getDimension(this)
 }
 
@@ -525,7 +543,7 @@ fun @receiver:DimenRes Int.dimension(context: Context = app): Float {
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
 @Px
-fun @receiver:DimenRes Int.dimensionPixelOffset(context: Context = app): Int {
+fun @receiver:DimenRes Int.dimensionPixelOffset(context: Context = context()): Int {
     return context.resources.getDimensionPixelOffset(this)
 }
 
@@ -540,7 +558,7 @@ fun @receiver:DimenRes Int.dimensionPixelOffset(context: Context = app): Int {
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
 @Px
-fun @receiver:DimenRes Int.dimensionPixelSize(context: Context = app): Int {
+fun @receiver:DimenRes Int.dimensionPixelSize(context: Context = context()): Int {
     return context.resources.getDimensionPixelSize(this)
 }
 
@@ -552,7 +570,7 @@ fun @receiver:DimenRes Int.dimensionPixelSize(context: Context = app): Int {
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
 @RequiresApi(Build.VERSION_CODES.O)
-fun @receiver:FontRes Int.font(context: Context = app): Typeface {
+fun @receiver:FontRes Int.font(context: Context = context()): Typeface {
     return context.resources.getFont(this)
 }
 
@@ -564,7 +582,7 @@ fun @receiver:FontRes Int.font(context: Context = app): Typeface {
  * @return Returns the boolean value contained in the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:BoolRes Int.bool(context: Context = app): Boolean {
+fun @receiver:BoolRes Int.bool(context: Context = context()): Boolean {
     return context.resources.getBoolean(this)
 }
 
@@ -575,7 +593,7 @@ fun @receiver:BoolRes Int.bool(context: Context = app): Boolean {
  * @return Returns the integer value contained in the resource.
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist.
  */
-fun @receiver:IntegerRes Int.integer(context: Context = app): Int {
+fun @receiver:IntegerRes Int.integer(context: Context = context()): Int {
     return context.resources.getInteger(this)
 }
 
@@ -587,7 +605,7 @@ fun @receiver:IntegerRes Int.integer(context: Context = app): Int {
  * @throws Resources.NotFoundException Throws NotFoundException if the given ID does not exist
  * or is not a floating-point value.
  */
-fun @receiver:DimenRes Int.float(context: Context = app): Float {
+fun @receiver:DimenRes Int.float(context: Context = context()): Float {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         context.resources.getFloat(this)
     } else {
