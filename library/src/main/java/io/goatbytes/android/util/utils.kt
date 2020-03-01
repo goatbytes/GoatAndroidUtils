@@ -28,6 +28,12 @@ inline fun <reified T : Any> tryOrNull(block: () -> T): T? = try {
     null
 }
 
+inline fun tryOrIgnore(block: () -> Unit) = try {
+    block()
+} catch (e: Exception) {
+    // ignored
+}
+
 inline operator fun <reified T : Any> Any.get(vararg array: T): Array<T> = arrayOf(*array)
 
 fun <T1 : Any, T2 : Any, R : Any> safeLet(
