@@ -108,7 +108,9 @@ val Activity.screenHeight get() = windowSize.y
 val Activity.screenWidth get() = windowSize.x
 
 /** Get the root view from the activity */
-inline val Activity.content: ViewGroup get() = findViewById(android.R.id.content)
+inline val Activity.content: ViewGroup
+    get() = findViewById(android.R.id.content)
+        ?: window.decorView.findViewById(android.R.id.content)
 
 /** Launch a new activity. */
 inline fun <reified T : Activity> Activity.startActivity(): Unit =
