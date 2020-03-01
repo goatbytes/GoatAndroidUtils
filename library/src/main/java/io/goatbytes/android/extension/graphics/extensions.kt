@@ -30,7 +30,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.annotation.Px
 import androidx.core.graphics.ColorUtils
-import io.goatbytes.android.app
+import io.goatbytes.android.globals.context
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -40,7 +40,8 @@ import kotlin.math.roundToInt
 // region Bitmap
 
 /** Create a [BitmapDrawable] from this [Bitmap]. */
-inline fun Bitmap.toDrawable(resources: Resources = app.resources) = BitmapDrawable(resources, this)
+inline fun Bitmap.toDrawable(resources: Resources = context().resources) =
+    BitmapDrawable(resources, this)
 
 /**
  * Extension method to save Bitmap to specified file.

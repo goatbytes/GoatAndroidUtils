@@ -31,7 +31,7 @@ import android.widget.Toast
 import androidx.annotation.IntRange
 import androidx.annotation.StringRes
 import androidx.core.text.HtmlCompat
-import io.goatbytes.android.app
+import io.goatbytes.android.globals.context
 
 // region TextView
 
@@ -46,7 +46,7 @@ val TextView.value get() = text.toString()
  * @param resid The string resource that is formatted with supported HTML tags
  */
 fun TextView.setHtml(@StringRes resid: Int, flag: Int = HtmlCompat.FROM_HTML_MODE_LEGACY) {
-    text = HtmlCompat.fromHtml(app.getString(resid), flag)
+    text = HtmlCompat.fromHtml(context().getString(resid), flag)
 }
 
 /**
@@ -205,23 +205,22 @@ private val String.duration: Int get() = if (length >= 50) Toast.LENGTH_LONG els
  * Default value is [Toast.LENGTH_SHORT] if the message is less than 50 characters
  */
 fun String.showToast(duration: Int = this.duration): Unit =
-    Toast.makeText(app, this, duration).show()
+    Toast.makeText(context(), this, duration).show()
 
 /** Show a [Toast] message with the duration of [Toast.LENGTH_SHORT] */
 fun String.showShortToast(): Unit =
-    Toast.makeText(app, this, Toast.LENGTH_SHORT).show()
+    Toast.makeText(context(), this, Toast.LENGTH_SHORT).show()
 
 /** Show a [Toast] message with the duration of [Toast.LENGTH_LONG] */
-fun String.showLongToast(): Unit =
-    Toast.makeText(app, this, Toast.LENGTH_LONG).show()
+fun String.showLongToast(): Unit = Toast.makeText(context(), this, Toast.LENGTH_LONG).show()
 
 /** Make a [Toast] message with the duration of [Toast.LENGTH_SHORT] */
 fun String.makeShortToast(): Toast =
-    Toast.makeText(app, this, Toast.LENGTH_SHORT)
+    Toast.makeText(context(), this, Toast.LENGTH_SHORT)
 
 /** Make a [Toast] message with the duration of [Toast.LENGTH_LONG] */
 fun String.makeLongToast(): Toast =
-    Toast.makeText(app, this, Toast.LENGTH_LONG)
+    Toast.makeText(context(), this, Toast.LENGTH_LONG)
 
 /**
  * Convenience function to make a toast message.
@@ -230,7 +229,7 @@ fun String.makeLongToast(): Toast =
  * Default value is [Toast.LENGTH_SHORT] if the message is less than 50 characters
  */
 fun String.makeToast(duration: Int = this.duration): Toast =
-    Toast.makeText(app, this, duration)
+    Toast.makeText(context(), this, duration)
 
 /**
  * Convenience function to show the string as a toast message.
@@ -238,16 +237,16 @@ fun String.makeToast(duration: Int = this.duration): Toast =
  * @param duration Either [Toast.LENGTH_SHORT] or [Toast.LENGTH_LONG].
  * Default value is [Toast.LENGTH_SHORT] if the message is less than 50 characters
  */
-fun @receiver:StringRes Int.showToast(duration: Int = app.getString(this).duration): Unit =
-    Toast.makeText(app, this, duration).show()
+fun @receiver:StringRes Int.showToast(duration: Int = context().getString(this).duration): Unit =
+    Toast.makeText(context(), this, duration).show()
 
 /** Show a [Toast] message with the duration of [Toast.LENGTH_LONG] */
 fun @receiver:StringRes Int.showLongToast(): Unit =
-    Toast.makeText(app, this, Toast.LENGTH_SHORT).show()
+    Toast.makeText(context(), this, Toast.LENGTH_SHORT).show()
 
 /** Show a [Toast] message with the duration of [Toast.LENGTH_SHORT] */
 fun @receiver:StringRes Int.showShortToast(): Unit =
-    Toast.makeText(app, this, Toast.LENGTH_LONG).show()
+    Toast.makeText(context(), this, Toast.LENGTH_LONG).show()
 
 /**
  * Convenience function to show the string as a toast message.
