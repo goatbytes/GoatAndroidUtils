@@ -214,7 +214,7 @@ fun <V : View> V.fadeIn(
  *
  * @param duration
  *     The duration of the animation.
- * @param onEnd Executed after the animation is complete.
+ * @param onAnimationEnd Executed after the animation is complete.
  */
 fun <V : View> V.fadeOut(
     duration: Long = 500,
@@ -305,8 +305,7 @@ fun <V : View> V.slideFadeIn(
 /**
  * Slide up a view. The animation's duration is 500ms.
  *
- * @param view
- * The view to animate.
+ * @receiver The view to animate.
  */
 fun <V : View> V.slideUp(
     duration: Long = 500,
@@ -541,7 +540,7 @@ inline fun <reified T : View> T.onClick(crossinline block: (T) -> Unit): T =
 // ---- Margins
 
 /**
- * Returns the left margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the left margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -553,7 +552,7 @@ inline var View.marginLeft: Int
     set(value) = updateMargins(left = value)
 
 /**
- * Returns the right margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the right margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -565,7 +564,7 @@ inline var View.marginRight: Int
     set(value) = updateMargins(right = value)
 
 /**
- * Returns the top margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the top margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -577,7 +576,7 @@ inline var View.marginTop: Int
     set(value) = updateMarginsRelative(top = value)
 
 /**
- * Returns the bottom margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the bottom margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -588,7 +587,7 @@ inline var View.marginBottom: Int
     get() = (layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
     set(value) = updateMarginsRelative(bottom = value)
 /**
- * Returns the start margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the start margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -600,7 +599,7 @@ inline var View.marginStart: Int
     set(value) = updateMarginsRelative(start = value)
 
 /**
- * Returns the end margin if this view's [LayoutParams] is a [ViewGroup.MarginLayoutParams],
+ * Returns the end margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.
  *
  * @see ViewGroup.MarginLayoutParams
@@ -967,7 +966,16 @@ inline operator fun ViewGroup.minusAssign(view: View) = removeView(view)
 /** Returns the number of views in this view group. */
 inline val ViewGroup.size get() = childCount
 
-inline fun ViewGroup.first(): View? = this[0]
+/** Returns the view at 0 or throws an [IndexOutOfBoundsException] */
+@Throws(IndexOutOfBoundsException::class)
+inline fun ViewGroup.first(): View = this[0]
+
+/** Returns the view at 0 or null */
+inline fun ViewGroup.firstOrNull(): View? = try {
+    getChildAt(0)
+} catch (e: Exception) {
+    null
+}
 
 /** Returns true if this view group contains no views. */
 inline fun ViewGroup.isEmpty() = childCount == 0
