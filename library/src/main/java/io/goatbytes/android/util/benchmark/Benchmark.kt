@@ -299,8 +299,10 @@ object Benchmark {
 
     }
 
-    class BenchmarkComparator(private val stat: Stat, private val order: Order) :
-        Comparator<Analysis> {
+    class BenchmarkComparator(
+        private val stat: Stat,
+        private val order: Order
+    ) : Comparator<Analysis> {
 
         override fun compare(left: Analysis, right: Analysis): Int {
             val statLeft = left.getStat(stat)

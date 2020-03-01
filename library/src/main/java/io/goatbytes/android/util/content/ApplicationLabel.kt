@@ -57,12 +57,7 @@ object ApplicationLabel {
      */
     operator fun get(packageName: String): String? = packageName.let { key ->
         cache[key] ?: tryOrNull {
-            get(
-                app.packageManager.getApplicationInfo(
-                    key,
-                    0
-                )
-            )
+            get(app.packageManager.getApplicationInfo(key, 0))
         }
     }
 
@@ -75,8 +70,7 @@ object ApplicationLabel {
     operator fun get(appInfo: PackageItemInfo): String? = appInfo.packageName.let { key ->
         cache[key] ?: tryOrNull {
             appInfo.loadLabel(app.packageManager).toString().also { value ->
-                cache[key] =
-                    value
+                cache[key] = value
             }
         }
     }
