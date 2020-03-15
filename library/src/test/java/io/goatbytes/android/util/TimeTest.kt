@@ -93,15 +93,3 @@ class TimeTest {
         assertEquals(336.hours.inWeeks, twoWeeks)
     }
 }
-
-
-// Custom time unit.
-class Week : TimeUnit {
-    override val timeIntervalRatio = 604800.0
-}
-
-val Number.weeks: Interval<Week>
-    get() = Interval(this.toDouble())
-
-val Interval<TimeUnit>.inWeeks: Interval<Week>
-    get() = converted()

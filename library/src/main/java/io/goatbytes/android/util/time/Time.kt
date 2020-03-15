@@ -31,6 +31,7 @@ import java.io.Serializable
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.concurrent.scheduleAtFixedRate
+import kotlin.math.roundToLong
 
 /*
  * Type-safe time calculations in Kotlin, powered by generics.
@@ -58,7 +59,13 @@ class Interval<out T : TimeUnit>(value: Number, factory: () -> T) : Serializable
 
     val value = value.toDouble()
 
-    val longValue = Math.round(this.value)
+    val longValue = this.value.roundToLong()
+
+    val inYears: Interval<Year>
+        get() = converted()
+
+    val inWeeks: Interval<Week>
+        get() = converted()
 
     val inDays: Interval<Day>
         get() = converted()
@@ -131,13 +138,20 @@ class Interval<out T : TimeUnit>(value: Number, factory: () -> T) : Serializable
     }
 }
 
+class Year : TimeUnit {
+    override val timeIntervalRatio = 31_556_952.0
+}
+
+class Week : TimeUnit {
+    override val timeIntervalRatio = 604_800.0
+}
 
 class Day : TimeUnit {
-    override val timeIntervalRatio = 86400.0
+    override val timeIntervalRatio = 86_400.0
 }
 
 class Hour : TimeUnit {
-    override val timeIntervalRatio = 3600.0
+    override val timeIntervalRatio = 3_600.0
 }
 
 class Minute : TimeUnit {
@@ -159,6 +173,14 @@ class Microsecond : TimeUnit {
 class Nanosecond : TimeUnit {
     override val timeIntervalRatio = 1e-9
 }
+
+inline val <reified T : TimeUnit> Interval<T>.milliseconds get() = inMilliseconds.longValue
+
+val Number.years: Interval<Year>
+    get() = Interval(this)
+
+val Number.weeks: Interval<Week>
+    get() = Interval(this)
 
 val Number.days: Interval<Day>
     get() = Interval(this)
@@ -183,11 +205,11 @@ val Number.nanoseconds: Interval<Nanosecond>
 
 //region Calendar
 operator fun Calendar.plus(other: Interval<TimeUnit>): Calendar = (clone() as Calendar).apply {
-    add(Calendar.MILLISECOND, other.inMilliseconds.longValue.toInt())
+    timeInMillis += other.inMilliseconds.longValue
 }
 
 operator fun Calendar.minus(other: Interval<TimeUnit>): Calendar = (clone() as Calendar).apply {
-    add(Calendar.MILLISECOND, -other.inMilliseconds.longValue.toInt())
+    timeInMillis -= other.inMilliseconds.longValue
 }
 //endregion
 
