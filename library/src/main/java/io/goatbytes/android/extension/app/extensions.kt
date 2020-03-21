@@ -107,36 +107,6 @@ val Activity.screenHeight get() = windowSize.y
 
 val Activity.screenWidth get() = windowSize.x
 
-/**
- * Get the orientation of the screen.
- *
- * @return One of the following values:
- *
- * <ul>
- * <li>{@link ActivityInfo#SCREEN_ORIENTATION_LANDSCAPE}</li>
- * <li>{@link ActivityInfo#SCREEN_ORIENTATION_REVERSE_LANDSCAPE}</li>
- * <li>{@link ActivityInfo#SCREEN_ORIENTATION_PORTRAIT}</li>
- * <li>{@link ActivityInfo#SCREEN_ORIENTATION_REVERSE_PORTRAIT}</li>
- * </ul>
- */
-val Activity.orientation: Int
-    get() = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation.let { rotation ->
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> when (rotation) {
-                Surface.ROTATION_0, Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-            }
-            Configuration.ORIENTATION_PORTRAIT -> when (rotation) {
-                Surface.ROTATION_0, Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-            }
-            else -> when (rotation) {
-                Surface.ROTATION_0, Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-            }
-        }
-    }
-
 /** Get the root view from the activity */
 inline val Activity.content: ViewGroup
     get() = findViewById(android.R.id.content)
