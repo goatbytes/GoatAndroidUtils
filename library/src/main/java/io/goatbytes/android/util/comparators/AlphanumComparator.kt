@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.goatbytes.android.util
+package io.goatbytes.android.util.comparators
 
 /**
  * The alpha-num Algorithm is an improved sorting algorithm for strings containing numbers.
@@ -45,7 +45,9 @@ object AlphanumComparator : Comparator<String> {
             thatMarker += thatChunk.length
             // If both chunks contain numeric characters, sort them numerically
             var result: Int
-            if (isDigit(thisChunk[0]) && isDigit(
+            if (isDigit(
+                    thisChunk[0]
+                ) && isDigit(
                     thatChunk[0]
                 )
             ) {
@@ -80,14 +82,20 @@ object AlphanumComparator : Comparator<String> {
         if (isDigit(c)) {
             while (marker < slength) {
                 c = s[marker]
-                if (!isDigit(c)) break
+                if (!isDigit(
+                        c
+                    )
+                ) break
                 append(c)
                 marker++
             }
         } else {
             while (marker < slength) {
                 c = s[marker]
-                if (isDigit(c)) break
+                if (isDigit(
+                        c
+                    )
+                ) break
                 append(c)
                 marker++
             }

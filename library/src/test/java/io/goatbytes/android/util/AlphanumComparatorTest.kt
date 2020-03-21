@@ -16,6 +16,7 @@
 
 package io.goatbytes.android.util
 
+import io.goatbytes.android.util.comparators.AlphanumComparator
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
