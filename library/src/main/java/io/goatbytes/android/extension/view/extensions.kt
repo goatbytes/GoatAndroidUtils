@@ -586,6 +586,7 @@ inline var View.marginTop: Int
 inline var View.marginBottom: Int
     get() = (layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
     set(value) = updateMarginsRelative(bottom = value)
+
 /**
  * Returns the start margin if this view's [ViewGroup.LayoutParams] is a [ViewGroup.MarginLayoutParams],
  * otherwise 0.

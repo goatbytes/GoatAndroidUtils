@@ -39,10 +39,13 @@ fun resources(): Resources = context().resources
 
 /** Number of milliseconds in a standard second. */
 const val MILLIS_PER_SECOND = 1000L
+
 /** Number of milliseconds in a standard minute. */
 const val MILLIS_PER_MINUTE = 60 * MILLIS_PER_SECOND
+
 /** Number of milliseconds in a standard hour. */
 const val MILLIS_PER_HOUR = 60 * MILLIS_PER_MINUTE
+
 /** Number of milliseconds in a standard day. */
 const val MILLIS_PER_DAY = 24 * MILLIS_PER_HOUR
 

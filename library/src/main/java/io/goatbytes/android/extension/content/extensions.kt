@@ -401,23 +401,31 @@ inline val Context.displayWidth: Int get() = resources.displayMetrics.widthPixel
 
 /** Convert device-independent pixels to pixels */
 val Float.dp: Float get() = this * context().resources.displayMetrics.density
+
 /** Convert scale-independent pixels to pixels */
 val Float.sp: Float get() = this * context().resources.displayMetrics.scaledDensity
+
 /** Convert pixels to device-independent pixels */
 val Float.toDp: Float get() = this / context().resources.displayMetrics.density
+
 /** Convert pixels to device-independent pixels */
 val Float.toSp: Float get() = this / context().resources.displayMetrics.scaledDensity
+
 /** Convert device-independent pixels to pixels */
 val Float.dip get() = dp
 
 /** Convert device-independent pixels to pixels */
 val Int.dp: Int get() = this.toFloat().dp.roundToInt()
+
 /** Convert scale-independent pixels to pixels */
 val Int.sp: Int get() = this.toFloat().sp.roundToInt()
+
 /** Convert pixels to device-independent pixels */
 val Int.toDp: Int get() = this.toFloat().toDp.roundToInt()
+
 /** Convert pixels to scale-independent pixels */
 val Int.toSp: Int get() = this.toFloat().toSp.roundToInt()
+
 /** Convert device-independent pixels to pixels */
 val Int.dip get() = dp
 
