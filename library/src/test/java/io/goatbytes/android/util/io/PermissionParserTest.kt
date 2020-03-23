@@ -71,33 +71,12 @@ class PermissionParserTest {
     }
 
     private val permissions = arrayOf(
-        PermissionStrings("0644", "rw-r--r--"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0775", "rwxrwxr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0700", "rwx------"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0644", "rw-r--r--"),
-        PermissionStrings("0644", "rw-r--r--"),
+        PermissionStrings("7777", "rwsrwsrwt"),
         PermissionStrings("0775", "rwxrwxr-x"),
         PermissionStrings("0755", "rwxr-xr-x"),
-        PermissionStrings("0755", "rwxr-xr-x")
+        PermissionStrings("0700", "rwx------"),
+        PermissionStrings("0644", "rw-r--r--"),
+        PermissionStrings("0000", "---------")
     )
 
     class PermissionStrings(val octal: String, val symbolic: String)
